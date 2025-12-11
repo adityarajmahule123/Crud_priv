@@ -43,6 +43,17 @@ app.put("/teas/:id", (req, res) => {
   tea.price = price;
   res.status(200).json(tea);
 });
+
+//delete a tea
+app.delete("/teas/:id", (req, res) => {
+  teaData = teaData.filter((t) => t.id !== parseInt(req.params.id));
+  res.status(204).send();
+  if (!tea) {
+    res.status(404).json({ message: "Tea not found" });
+    return;
+  }
+});
+
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
