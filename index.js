@@ -8,10 +8,41 @@ app.use(express.json());
 let teaData = [];
 let nextId = 1;
 
+//add a new tea
 app.post("/teas", (req, res) => {
-  req.body;
+  const { name, price } = req.body;
+  const newTea = { id: nextId++, name, price };
+  teaData.push(newTea);
+  res.status(201).json(newTea);
 });
+//get all teas
+app.get("/teas", (req, res) => {
+  res.json(teaData);
+});
+//get a tea with id
+app.get("/teas/:id", (req, res) => {
+  const tea = teaData.find((t) => t.id === parseInt(req.params.id));
 
+  if (!tea) {
+    res.status(404).json({ message: "Tea not found" });
+    return;
+  }
+  res.status(200).json(tea);
+});
+//update  a tea
+
+app.put("/teas/:id", (req, res) => {
+  const tea = teaData.find((t) => t.id === parseInt(req.params.id));
+
+  if (!tea) {
+    res.status(404).json({ message: "Tea not found" });
+    return;
+  }
+  const { name, price } = req.body;
+  tea.name = name;
+  tea.price = price;
+  res.status(200).json(tea);
+});
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
