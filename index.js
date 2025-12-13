@@ -1,7 +1,10 @@
+import dotenv from "dotenv";
 import express from "express";
 
+dotenv.config();
+
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
@@ -15,10 +18,12 @@ app.post("/teas", (req, res) => {
   teaData.push(newTea);
   res.status(201).json(newTea);
 });
+
 //get all teas
 app.get("/teas", (req, res) => {
   res.json(teaData);
 });
+
 //get a tea with id
 app.get("/teas/:id", (req, res) => {
   const tea = teaData.find((t) => t.id === parseInt(req.params.id));
@@ -29,8 +34,8 @@ app.get("/teas/:id", (req, res) => {
   }
   res.status(200).json(tea);
 });
-//update  a tea
 
+//update  a tea
 app.put("/teas/:id", (req, res) => {
   const tea = teaData.find((t) => t.id === parseInt(req.params.id));
 
